@@ -25,22 +25,22 @@ const main = async() => {
     const firstDiff = 5;
     const otherDiff = 3;
     const arrayToJSONString = (arr) => {
-        return '{\n' + arr.map(data => data.key + ':[' + data.value.toString() + ']').join('\n,') + '\n}';
+        return '{\n' + arr.map(data => '"' + data.key + '":[' + data.value.toString() + ']').join('\n,') + '\n}';
     };
     const writeJSONResult = (path, data) => {
         fs.writeFileSync(path, data);
     };
-    (function createBuildingJSONFile() {
-        const makeBuildingJSON = (data, idColumnIdx, lowHeightIdx, highHeightIdx) => {
             const getFloorCount = (heightDiff, firstDiff, otherDiff) => {
                 const leftedHeight = heightDiff - firstDiff;
                 if (leftedHeight <= 0) {
-                    return [firstDiff, 0, 1];
+                    return [30, 0, 1];
                 } else {
                     const floor = Math.ceil(leftedHeight / otherDiff);
-                    return [firstDiff, 0, floor + 1];
+                    return [30, 0, floor + 1];
                 }
             };
+    (function createBuildingJSONFile() {
+        const makeBuildingJSON = (data, idColumnIdx, lowHeightIdx, highHeightIdx) => {
             const floorData = data
                 .map(line => { return { id: line[idColumnIdx], lowHeight: line[lowHeightIdx], highHeight: line[highHeightIdx] } })
                 .map(value => {
@@ -55,15 +55,6 @@ const main = async() => {
     })();
     (function createFloorJSONFile() {
         const makeFloorJSON = (data, idColumnIdx, lowHeightIdx, highHeightIdx) => {
-            const getFloorCount = (heightDiff, firstDiff, otherDiff) => {
-                const leftedHeight = heightDiff - firstDiff;
-                if (leftedHeight <= 0) {
-                    return [firstDiff, 0, 1];
-                } else {
-                    const floor = Math.ceil(leftedHeight / otherDiff);
-                    return [firstDiff, 0, floor + 1];
-                }
-            };
             const floorData = data
                 .map(line => { return { id: line[idColumnIdx], lowHeight: line[lowHeightIdx], highHeight: line[highHeightIdx] } })
                 .map(value => {
